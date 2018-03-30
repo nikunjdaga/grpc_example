@@ -26,6 +26,7 @@
         <activity
             android:name=".ui.webview.WebviewActivity"
             android:label="@string/title_activity_webview"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

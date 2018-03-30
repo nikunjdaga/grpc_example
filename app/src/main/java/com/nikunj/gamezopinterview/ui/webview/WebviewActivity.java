@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -27,21 +28,12 @@ public class WebviewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_webview);
 
         //no title bar
+
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        //with title bar
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
-
-        /*try {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }catch (NullPointerException e){
-            Intent openMainActivity = new Intent(this,MainActivity.class);
-
-        }*/
+        setContentView(R.layout.activity_webview);
 
         webview = (WebView) findViewById(R.id.webView);
         String getPath = getIntent().getStringExtra("path");
@@ -49,18 +41,20 @@ public class WebviewActivity extends AppCompatActivity {
         setWebView();
 
         if (getPath != null) {
-            String urlString = validateUrl(DownloadConstants.FILE_PATH + getPath
-                    + DownloadConstants.HTML_FILE_NAME);
+            String urlString = DownloadConstants.FILE_PATH + getPath
+                    + DownloadConstants.HTML_FILE_NAME;
             webview.loadUrl(urlString);
         }
-
-        MainActivity.progress.dismiss();
 
     }
 
     private void setWebView() {
+        WebChromeClient webClient = new WebChromeClient() {
+        };
+        webview.setWebChromeClient(webClient);
         WebSettings settings = webview.getSettings();
-        settings.setJavaScriptEnabled(false);
+
+        settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setDatabaseEnabled(true);
         settings.setAllowFileAccess(true);
@@ -81,14 +75,6 @@ public class WebviewActivity extends AppCompatActivity {
                 super.onPageFinished(view, url);
             }
         });
-    }
-
-    private String validateUrl(String url)
-    {
-        if(url.startsWith(www))   url = http + url;
-        else if(!(url.startsWith(http)|| (url.startsWith(https))) && !url.startsWith(www))
-            url = http+ www +url;
-        return(url);
     }
 
     @Override

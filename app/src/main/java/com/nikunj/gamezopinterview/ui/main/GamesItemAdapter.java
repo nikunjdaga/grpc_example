@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -55,30 +56,34 @@ public class GamesItemAdapter extends RecyclerView.Adapter<GamesItemAdapter.Game
         Glide.with(context)
                 .load(gameGridItemList.get(position).getGameImageUrl())
                 .into(holder.gameImage);
-
-        ProgressDialog progress = new ProgressDialog(context);
-        progress.setMessage("Loading game...");
-        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progress.setIndeterminate(true);
-        progress.setCancelable(false);
-        progress.show();
-        String zipUrl = hashMap.get(position);
-        DownloadZipTask downloadZipTask = new DownloadZipTask(
-                "/gamezopint/" + position + ".zip",
-                context, new DownloadZipTask.onPostDownload() {
+        holder.gameGridCard.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void downloadFinish(File fDownload) {
-                // check unzip file now
-                UnzipTask unzip = new UnzipTask(context, fDownload);
-                String ss = unzip.unzip(position);
-                String path_to_file = "gamezopinterview/unzips/" + ss;
-                Intent startAct = new Intent(context, WebviewActivity.class);
-                startAct.putExtra("path", path_to_file);
-                context.startActivity(startAct);
+            public void onClick(View v) {
+                final ProgressDialog progress = new ProgressDialog(context);
+                progress.setMessage("Loading game...");
+                progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progress.setIndeterminate(true);
+                progress.setCancelable(false);
+                progress.show();
+                String zipUrl = hashMap.get(position);
+                DownloadZipTask downloadZipTask = new DownloadZipTask(
+                        "/gamezopint/" + position + ".zip",
+                        context, new DownloadZipTask.onPostDownload() {
+                    @Override
+                    public void downloadFinish(File fDownload) {
+                        // check unzip file now
+                        UnzipTask unzip = new UnzipTask(context, fDownload);
+                        String ss = unzip.unzip(position);
+                        String path_to_file = "gamezopinterview/unzips/" + ss;
+                        Intent startAct = new Intent(context, WebviewActivity.class);
+                        startAct.putExtra("path", path_to_file);
+                        context.startActivity(startAct);
+                        progress.dismiss();
+                    }
+                });
+                downloadZipTask.execute(zipUrl);
             }
         });
-        downloadZipTask.execute(zipUrl);
-
     }
 
     @Override
@@ -90,7 +95,7 @@ public class GamesItemAdapter extends RecyclerView.Adapter<GamesItemAdapter.Game
 
         TextView gameName;
         ImageView gameImage;
-        ConstraintLayout gameGridCard;
+        LinearLayout gameGridCard;
 
         GamesItemViewHolder(View itemView) {
             super(itemView);
