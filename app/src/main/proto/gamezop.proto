@@ -4,7 +4,7 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_package = "app.gamezoptest.gamezoptest";
+option java_package = "com.nikunj.gamezopinterview";
 option java_outer_classname = "Core";
 
 package gamezop;
