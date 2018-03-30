@@ -24,7 +24,7 @@ import io.grpc.ManagedChannelBuilder;
 /**
  * Created by nikunj on 3/30/18.
  */
-class GrpcTask extends AsyncTask<String, Void, GamesResponse> {
+public class GrpcTask extends AsyncTask<String, Void, GamesResponse> {
     private final WeakReference<Activity> activityReference;
     private ManagedChannel channel;
     GetGameResponse response = null;
@@ -39,7 +39,7 @@ class GrpcTask extends AsyncTask<String, Void, GamesResponse> {
         String portStr = DownloadConstants.PORT;
         int port = TextUtils.isEmpty(portStr) ? 0 : Integer.valueOf(portStr);
         try {
-            channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
+            channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext(true).build();
             InfoServiceGrpc.InfoServiceBlockingStub stub = InfoServiceGrpc.newBlockingStub(channel);
             GamesRequest request = GamesRequest.newBuilder().build();
             return stub.getGames(request);

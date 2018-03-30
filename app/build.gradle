@@ -48,7 +48,7 @@ protobuf {
             artifact = "com.google.protobuf:protoc-gen-javalite:3.0.0"
         }
         grpc {
-            artifact = 'io.grpc:protoc-gen-grpc-java:1.+' // CURRENT_GRPC_VERSION
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.0.1' // CURRENT_GRPC_VERSION
         }
     }
     generateProtoTasks {
@@ -75,9 +75,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
     implementation 'javax.annotation:javax.annotation-api:1.2'
-    implementation 'io.grpc:grpc-okhttp:1.+' // CURRENT_GRPC_VERSION
-    implementation 'io.grpc:grpc-protobuf-lite:1.+' // CURRENT_GRPC_VERSION
-    implementation 'io.grpc:grpc-stub:1.+' // CURRENT_GRPC_VERSION
+    implementation 'io.grpc:grpc-okhttp:1.0.1' // CURRENT_GRPC_VERSION
+    implementation 'io.grpc:grpc-protobuf-lite:1.0.1' // CURRENT_GRPC_VERSION
+    implementation 'io.grpc:grpc-stub:1.0.1' // CURRENT_GRPC_VERSION
 
     implementation 'com.github.bumptech.glide:glide:4.3.1'
     implementation 'com.google.code.gson:gson:2.8.2'
